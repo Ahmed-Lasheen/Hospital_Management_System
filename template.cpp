@@ -74,20 +74,85 @@ private:
     vector<Patient> patients;
     vector<Doctor> doctors;
     queue<int> emergencyQueue;
-    int patientCounter;
-    int doctorCounter;
+    int patientCounter=0;
+    int doctorCounter=0;
     
 public:
     Hospital();
     
-    int registerPatient(string name, int age, string contact);
-    int addDoctor(string name, Department dept);
-    void admitPatient(int patientId, RoomType type);
-    void addEmergency(int patientId);
-    int handleEmergency();
-    void bookAppointment(int doctorId, int patientId);
-    void displayPatientInfo(int patientId);
-    void displayDoctorInfo(int doctorId);
+    int registerPatient(string name, int age, string contact)
+    {
+        patients.push_back(Patient(++patientCounter,name,age,contact));
+        cout<<"Successfully added a new patient\n";
+        return patientCounter;
+    }
+    ///////////////////////////
+    int addDoctor(string name, Department dept)
+    {
+        doctors.push_back(Doctor(++doctorCounter,name,dept));
+        cout<<"Successfully added a new doctor\n";
+        return doctorCounter;
+    }
+    //////////////////////////
+    void admitPatient(int patientId, RoomType type)
+    {
+        if(patientId<patients.size()&&patientId>0)
+        {
+            if(patients[patientId-1].getAdmissionStatus())
+            {
+                cout<<patients[patientId-1].getName()<<" is already admitted to a room"<<endl;
+            }
+            else
+            {
+                patients[patientId-1].admitPatient(type);
+                cout<<"Successfully addmited "<<patients[patientId-1].getName()<<endl;
+            }
+            return;
+            
+        }
+        else
+        {
+            cout<<"invalid Patient ID"<<endl;
+            return;            
+        }    
+
+    }
+    ///////////////////////
+    void addEmergency(int patientId)
+    {
+
+        if(patientId<patients.size()&&patientId>0)
+        {
+            emergencyQueue.enqueue(patientId);
+        }
+        else
+        {
+            cout<<"invalid Patient ID"<<endl;
+            return;            
+        }    
+
+    }
+    ///////////////////////
+    int handleEmergency()
+    {
+
+    }
+    ///////////////////////
+    void bookAppointment(int doctorId, int patientId)
+    {
+
+    }
+    ///////////////////////
+    void displayPatientInfo(int patientId)
+    {
+
+    }
+    ///////////////////////
+    void displayDoctorInfo(int doctorId)
+    {
+
+    }
+    ///////////////////////
 };
 
 // ========== MAIN PROGRAM ========== //
