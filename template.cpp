@@ -84,6 +84,7 @@ public:
     {
         patients.push_back(Patient(++patientCounter,name,age,contact));
         cout<<"Successfully added a new patient\n";
+        cout<<"======================================"<<endl;
         return patientCounter;
     }
     ///////////////////////////
@@ -91,12 +92,13 @@ public:
     {
         doctors.push_back(Doctor(++doctorCounter,name,dept));
         cout<<"Successfully added a new doctor\n";
+        cout<<"======================================"<<endl;
         return doctorCounter;
     }
     //////////////////////////
     void admitPatient(int patientId, RoomType type)
     {
-        if(patientId<patients.size()&&patientId>0)
+        if(patientId<=patients.size()&&patientId>0)
         {
             if(patients[patientId-1].getAdmissionStatus())
             {
@@ -105,52 +107,99 @@ public:
             else
             {
                 patients[patientId-1].admitPatient(type);
-                cout<<"Successfully addmited "<<patients[patientId-1].getName()<<endl;
+                cout<<"Successfully addmited "<<patients[patientId-1].getName()<<" to a room"<<endl;
             }
-            return;
             
         }
         else
         {
-            cout<<"invalid Patient ID"<<endl;
-            return;            
-        }    
+            cout<<"invalid Patient ID"<<endl;            
+        }   
+        cout<<"======================================"<<endl;
+        return; 
 
     }
     ///////////////////////
     void addEmergency(int patientId)
     {
 
-        if(patientId<patients.size()&&patientId>0)
+        if(patientId<=patients.size()&&patientId>0)
         {
-            emergencyQueue.enqueue(patientId);
+            emergencyQueue.push(patientId);
         }
         else
         {
-            cout<<"invalid Patient ID"<<endl;
-            return;            
+            cout<<"invalid Patient ID"<<endl;          
         }    
+        cout<<"======================================"<<endl;
+        return;
 
     }
     ///////////////////////
-    int handleEmergency()
-    {
+    int handleEmergency() {
+        if (emergencyQueue.empty()) return -1;
 
+        int id = emergencyQueue.front();
+        emergencyQueue.pop();
+        cout << "Emergency Treated: " << id << endl;
+        return id;
     }
     ///////////////////////
     void bookAppointment(int doctorId, int patientId)
     {
+        if(doctorId>0&&doctorId<=doctors.size())
+        {
+            if(patientId<=patients.size()&&patientId>0)
+            {
+                doctors[doctorId-1].addAppointment(patientId);
+                cout << "Successfully reserved appointment for Patient "<< patientId << " with Doctor " << doctorId << endl;
+            }
+            else
+            {
+                cout<<"invalid Patient ID"<<endl;
+            }
+        }
+        else
+        {
+                cout<<"invalid Doctor ID"<<endl;
 
+        }
+        cout<<"======================================"<<endl;
+        return;
     }
     ///////////////////////
     void displayPatientInfo(int patientId)
     {
-
+        if(patientId<=patients.size()&&patientId>0)
+        {
+            cout<<"patient ID: "<<patients[patientId-1].getId()<<endl;
+            cout<<"patient Name: "<<patients[patientId-1].getName()<<endl;
+            cout<<"patient Admission: "<<patients[patientId-1].getAdmissionStatus()<<endl;
+            cout<<"patient Medical History:";
+            patients[patientId-1].displayHistory();
+        }
+        else
+        {
+            cout<<"this ID isn't Valid, Please enter a Valid ID"<<endl;
+        }
+        cout<<"======================================"<<endl;
+        return;
     }
     ///////////////////////
     void displayDoctorInfo(int doctorId)
     {
-
+        if(doctorId<=doctors.size()&&doctorId>0)
+        {
+            cout<<"Doctor ID: "<<doctors[doctorId-1].getId()<<endl;
+            cout<<"Doctor Name: "<<doctors[doctorId-1].getName()<<endl;
+            cout<<"Doctor Department: "<<doctors[doctorId-1].getDepartment()<<endl;
+        }
+        else
+        {
+            cout<<"this ID isn't Valid, Please enter a Valid ID"<<endl;
+        }
+        cout<<"======================================"<<endl;
+        return;
     }
     ///////////////////////
 };
