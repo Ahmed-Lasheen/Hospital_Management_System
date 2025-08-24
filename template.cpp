@@ -58,14 +58,47 @@ private:
     queue<int> appointmentQueue;
     
 public:
-    Doctor(int did, string n, Department d);
+    Doctor(int did, string n, Department d){
+        id = did;
+        name = n;
+        department = d;
+    }
     
-    void addAppointment(int patientId);
-    int seePatient();
+    void addAppointment(int patientId){
+        appointmentQueue.push(patientId);
+        cout << "Patient " << patientId << " Booked with Dr. " << name << endl;
+    }
+
+    int seePatient(){
+        if(appointmentQueue.empty()){
+            cout << "No patients in the queue for De. " << name << endl;
+            return -1;
+        }
+        int patientId = appointmentQueue.front();
+        appointmentQueue.pop();
+        cout << "Dr. " << name << " is now seeing patient " << patientId << endl;
+        return patientId;
+    }
     
-    int getId();
-    string getName();
-    string getDepartment();
+    int getId(){
+        return id;
+    }
+
+    string getName(){
+        return name;
+    }
+
+    string getDepartment(){
+        switch(department){
+            case CARDIOLOGY: return "Cardiology";
+            case NEUROLOGY: return "Neurology";
+            case ORTHOPEDICS: return "Orthopedics";
+            case PEDIATRICS: return "Pediatrics";
+            case EMERGENCY: return "Emergency";
+            case GENERAL: return "General";
+            default: return "Unknown";
+        }
+    }
 };
 
 // ========== HOSPITAL CLASS ========== //
@@ -74,85 +107,20 @@ private:
     vector<Patient> patients;
     vector<Doctor> doctors;
     queue<int> emergencyQueue;
-    int patientCounter=0;
-    int doctorCounter=0;
+    int patientCounter;
+    int doctorCounter;
     
 public:
     Hospital();
     
-    int registerPatient(string name, int age, string contact)
-    {
-        patients.push_back(Patient(++patientCounter,name,age,contact));
-        cout<<"Successfully added a new patient\n";
-        return patientCounter;
-    }
-    ///////////////////////////
-    int addDoctor(string name, Department dept)
-    {
-        doctors.push_back(Doctor(++doctorCounter,name,dept));
-        cout<<"Successfully added a new doctor\n";
-        return doctorCounter;
-    }
-    //////////////////////////
-    void admitPatient(int patientId, RoomType type)
-    {
-        if(patientId<patients.size()&&patientId>0)
-        {
-            if(patients[patientId-1].getAdmissionStatus())
-            {
-                cout<<patients[patientId-1].getName()<<" is already admitted to a room"<<endl;
-            }
-            else
-            {
-                patients[patientId-1].admitPatient(type);
-                cout<<"Successfully addmited "<<patients[patientId-1].getName()<<endl;
-            }
-            return;
-            
-        }
-        else
-        {
-            cout<<"invalid Patient ID"<<endl;
-            return;            
-        }    
-
-    }
-    ///////////////////////
-    void addEmergency(int patientId)
-    {
-
-        if(patientId<patients.size()&&patientId>0)
-        {
-            emergencyQueue.enqueue(patientId);
-        }
-        else
-        {
-            cout<<"invalid Patient ID"<<endl;
-            return;            
-        }    
-
-    }
-    ///////////////////////
-    int handleEmergency()
-    {
-
-    }
-    ///////////////////////
-    void bookAppointment(int doctorId, int patientId)
-    {
-
-    }
-    ///////////////////////
-    void displayPatientInfo(int patientId)
-    {
-
-    }
-    ///////////////////////
-    void displayDoctorInfo(int doctorId)
-    {
-
-    }
-    ///////////////////////
+    int registerPatient(string name, int age, string contact);
+    int addDoctor(string name, Department dept);
+    void admitPatient(int patientId, RoomType type);
+    void addEmergency(int patientId);
+    int handleEmergency();
+    void bookAppointment(int doctorId, int patientId);
+    void displayPatientInfo(int patientId);
+    void displayDoctorInfo(int doctorId);
 };
 
 // ========== MAIN PROGRAM ========== //
