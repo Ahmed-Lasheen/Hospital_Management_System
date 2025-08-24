@@ -58,14 +58,47 @@ private:
     queue<int> appointmentQueue;
     
 public:
-    Doctor(int did, string n, Department d);
+    Doctor(int did, string n, Department d){
+        id = did;
+        name = n;
+        department = d;
+    }
     
-    void addAppointment(int patientId);
-    int seePatient();
+    void addAppointment(int patientId){
+        appointmentQueue.push(patientId);
+        cout << "Patient " << patientId << " Booked with Dr. " << name << endl;
+    }
+
+    int seePatient(){
+        if(appointmentQueue.empty()){
+            cout << "No patients in the queue for De. " << name << endl;
+            return -1;
+        }
+        int patientId = appointmentQueue.front();
+        appointmentQueue.pop();
+        cout << "Dr. " << name << " is now seeing patient " << patientId << endl;
+        return patientId;
+    }
     
-    int getId();
-    string getName();
-    string getDepartment();
+    int getId(){
+        return id;
+    }
+
+    string getName(){
+        return name;
+    }
+
+    string getDepartment(){
+        switch(department){
+            case CARDIOLOGY: return "Cardiology";
+            case NEUROLOGY: return "Neurology";
+            case ORTHOPEDICS: return "Orthopedics";
+            case PEDIATRICS: return "Pediatrics";
+            case EMERGENCY: return "Emergency";
+            case GENERAL: return "General";
+            default: return "Unknown";
+        }
+    }
 };
 
 // ========== HOSPITAL CLASS ========== //
