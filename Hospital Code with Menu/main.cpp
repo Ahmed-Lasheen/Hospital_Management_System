@@ -167,6 +167,7 @@ private:
     int patientCounter;
     int doctorCounter;
 
+
 public:
     Hospital()
     {
@@ -317,6 +318,65 @@ public:
         return;
     }
     ///////////////////////
+    void displayDoctors()
+    {
+        if(doctors.empty())
+        {
+            cout<<"No doctors found to display"<<endl;
+        }
+        else
+        {
+            for(int i=0;i<doctors.size();i++)
+            {
+                displayDoctorInfo(i+1);
+            }
+        }
+        
+        cout<<"======================================"<<endl;
+        return;
+    }
+    ///////////////////////
+    void displayPatients()
+    {
+        if(patients.empty())
+        {
+            cout<<"No Patients found to display"<<endl;
+        }
+        else
+        {
+            for(int i=0;i<patients.size();i++)
+            {
+                displayPatientInfo(i+1);
+            }
+        }
+        
+        cout<<"======================================"<<endl;
+        return;
+    }
+
+    ///////////////////////
+    void seePatient(int doctorId)
+    {
+        if(doctors.empty())
+        {
+            cout<<"No doctors found"<<endl;
+        }
+        else if(doctorId<=doctors.size()&&doctorId>0)
+        {
+            int pId=doctors[doctorId-1].seePatient();
+            if(pId==-1)
+            {
+                return;
+            }
+
+        }
+        else
+        {
+            cout<<"this ID isn't Valid, Please enter a Valid ID"<<endl;
+        }
+        cout<<"======================================"<<endl;
+        return;
+    }
 
 
 };
@@ -331,7 +391,10 @@ void displayMainMenu() {
     cout << "6. Handle Emergency" << endl;
     cout << "7. Display Patient Information" << endl;
     cout << "8. Display Doctor Information" << endl;
-    cout << "9. Exit" << endl;
+    cout << "9. See Patient"<<endl;
+    cout << "10. Display All Doctors"<<endl;
+    cout << "11. Display All Patients"<<endl;
+    cout << "12. Exit" << endl;
     cout << "Please enter your choice (1-9): ";
 }
 
@@ -473,8 +536,24 @@ int main() {
                 hospital.displayDoctorInfo(doctorId);
                 break;
             }
+            case 9:
+            {
+                cout<<"Enter doctor ID to See waiting Patients"<<endl;
+                int Dchoice;
+                cin>>Dchoice;
+                hospital.seePatient(Dchoice);
+                break;
+            }
+            case 10: { //displays
+                    hospital.displayDoctors();
+                break;
+            }
+            case 11: { //displays
+                hospital.displayPatients();
+                break;
+            }
 
-            case 9: { // Exit
+            case 12: { // Exit
                 cout << "Thank you for using the Hospital Management System. Goodbye!" << endl;
                 break;
             }
@@ -561,3 +640,4 @@ int main() {
 
     return 0;
 }
+
