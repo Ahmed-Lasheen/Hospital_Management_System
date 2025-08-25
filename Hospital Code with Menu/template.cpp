@@ -155,8 +155,8 @@ private:
     vector<Patient> patients;
     vector<Doctor> doctors;
     queue<int> emergencyQueue;
-    int patientCounter=0;
-    int doctorCounter=0;
+    int patientCounter;
+    int doctorCounter;
     
 public:
     Hospital();
